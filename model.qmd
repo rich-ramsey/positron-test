@@ -1,0 +1,118 @@
+---
+title: "model"
+format: html
+---
+
+This tests a model building file.
+
+```{r}
+#| label: setup
+
+## packages
+pkgs <- c(
+  "cmdstanr", "tidyverse", "RColorBrewer", "patchwork",
+  "brms", "tidybayes", "bayesplot", "future", "parallel", "rstan"
+)
+vapply(
+  pkgs, library, logical(1), character.only = TRUE, logical.return = TRUE
+)
+
+## stan settings
+rstan_options(auto_write = TRUE)
+
+## plot settings
+theme_set(
+  theme_bw() +
+    theme(text = element_text(size = 18, face = "bold"), 
+          title = element_text(size = 18, face = "bold"),
+          legend.position = "bottom")
+)
+
+## Set options (removed mc.cores = , as I now put this in the model fit function)
+options(
+  brms.backend = "cmdstanr",
+  future.fork.enable = TRUE,
+  future.rng.onMisuse = "ignore"
+)
+
+## Detect machine capabilities
+parallel::detectCores()  # Should be 28
+
+supportsMulticore()
+
+set.seed(123)
+```
+
+# Read the data 
+
+```{r}
+#| label: read-data
+
+dat <- read_csv("data.csv")
+head(dat)
+```
+
+# Fit some models
+
+setup the fitting function
+
+```{r}
+#| label: brms-defaults-function
+
+brm_defaults <- list(
+  family = gaussian(),
+  iter = 2000,
+  warmup = 1000,
+  cores = 4,
+  chains = 4,
+  save_pars = save_pars(all = TRUE),
+  seed = 123,
+  control = list(adapt_delta = 0.95, max_treedepth = 15)
+)
+
+fit_model <- function(formula, prior, file, data, ...) {
+  brm(
+    formula = formula,
+    prior = prior,
+    file = file,
+    data = data,  
+    family = brm_defaults$family,
+    iter = brm_defaults$iter,
+    warmup = brm_defaults$warmup,
+    cores = brm_defaults$cores,
+    chains = brm_defaults$chains,
+    save_pars = brm_defaults$save_pars,
+    seed = brm_defaults$seed,
+    control = brm_defaults$control,
+    ...
+  )
+}
+```
+
+fit a model
+
+```{r}
+#| label: fit-model
+
+## formula
+formula = bf(rt ~ 0 + condition)
+
+## check priors
+get_prior(formula, data = dat, family = gaussian())
+
+## set priors
+priors <- c(
+  set_prior("normal(500, 100)", class = "b"),
+  set_prior("normal(0, 25)", class = "sigma")
+)
+
+## fit the model
+b1 <- fit_model(
+  formula = formula,
+  prior = priors,
+  data = dat,
+  file = "b1",
+)
+
+summary(b1)
+```
