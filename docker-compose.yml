@@ -1,0 +1,18 @@
+services:
+  rstudio:
+    platform: linux/amd64
+    build: .
+    ports:
+      - "8787:8787"
+    environment:
+      - DISABLE_AUTH=true
+      - RENV_CONFIG_CACHE_ENABLED=FALSE
+      - RENV_CONFIG_SANDBOX_ENABLED=FALSE
+      - CMDSTAN=/home/rstudio/.cmdstan/cmdstan-2.37.0
+    volumes:
+      # Mount local project folder into container
+      - ./:/home/rstudio
+      # Preserve the renv library built into the image
+      - /home/rstudio/renv
+      # Preserve the CmdStan installation built into the image
+      - /home/rstudio/.cmdstan
