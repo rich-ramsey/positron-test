@@ -2,3 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+.cache/
+.cmdstan/
+.config/
+.local/
+.sh_history
