@@ -1,13 +1,14 @@
 ---
-title: "test"
+title: "wrangle"
 format: html
+editor_options: 
+  chunk_output_type: console
 ---
 
 This tests a simple quarto file in positron.
 
 ```{r}
 #| label: setup
-
 library(tidyverse)
 
 set.seed(123)
@@ -16,20 +17,19 @@ set.seed(123)
 
 ```{r}
 #| label: sim-data-plot
-
 n <- 100
 
 dat <- tibble(
   participant = rep(1:20, each = n / 20),
-  condition   = rep(c("congruent", "incongruent"), times = n / 2),
-  rt          = rnorm(n, mean = ifelse(condition == "congruent", 500, 550), sd = 50)
+  condition = rep(c("congruent", "incongruent"), times = n / 2),
+  rt = rnorm(n, mean = ifelse(condition == "congruent", 500, 550), sd = 50)
 )
 
 # Summary
 dat |>
   summarise(
     mean_rt = mean(rt),
-    sd_rt   = sd(rt),
+    sd_rt = sd(rt),
     .by = condition
   )
 
@@ -40,13 +40,20 @@ dat |>
   geom_jitter(width = 0.1, alpha = 0.4) +
   labs(
     title = "Simulated RT by condition",
-    x     = "Condition",
-    y     = "Reaction time (ms)"
+    x = "Condition",
+    y = "Reaction time (ms)"
   ) +
   theme_minimal() +
   theme(legend.position = "none")
 
-ggsave("dat_plot.png")
+ggsave(
+  "dat_plot.png",
+  width = 8,
+  height = 6
+)
 
-write_csv(dat, "data.csv")
+write_csv(
+  dat,
+  "data.csv"
+)
 ```

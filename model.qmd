@@ -1,20 +1,33 @@
 ---
 title: "model"
 format: html
+editor_options: 
+  chunk_output_type: console
 ---
 
 This tests a model building file.
 
 ```{r}
 #| label: setup
-
 ## packages
 pkgs <- c(
-  "cmdstanr", "tidyverse", "RColorBrewer", "patchwork",
-  "brms", "tidybayes", "bayesplot", "future", "parallel", "rstan"
+  "cmdstanr",
+  "tidyverse",
+  "RColorBrewer",
+  "patchwork",
+  "brms",
+  "tidybayes",
+  "bayesplot",
+  "future",
+  "parallel",
+  "rstan"
 )
 vapply(
-  pkgs, library, logical(1), character.only = TRUE, logical.return = TRUE
+  pkgs,
+  library,
+  logical(1),
+  character.only = TRUE,
+  logical.return = TRUE
 )
 
 ## stan settings
@@ -23,9 +36,11 @@ rstan_options(auto_write = TRUE)
 ## plot settings
 theme_set(
   theme_bw() +
-    theme(text = element_text(size = 18, face = "bold"), 
-          title = element_text(size = 18, face = "bold"),
-          legend.position = "bottom")
+    theme(
+      text = element_text(size = 18, face = "bold"),
+      title = element_text(size = 18, face = "bold"),
+      legend.position = "bottom"
+    )
 )
 
 ## Set options (removed mc.cores = , as I now put this in the model fit function)
@@ -36,7 +51,7 @@ options(
 )
 
 ## Detect machine capabilities
-parallel::detectCores()  # Should be 28
+parallel::detectCores() # Should be 28
 
 supportsMulticore()
 
@@ -47,7 +62,6 @@ set.seed(123)
 
 ```{r}
 #| label: read-data
-
 dat <- read_csv("data.csv")
 head(dat)
 ```
@@ -58,7 +72,6 @@ setup the fitting function
 
 ```{r}
 #| label: brms-defaults-function
-
 brm_defaults <- list(
   family = gaussian(),
   iter = 2000,
@@ -75,7 +88,7 @@ fit_model <- function(formula, prior, file, data, ...) {
     formula = formula,
     prior = prior,
     file = file,
-    data = data,  
+    data = data,
     family = brm_defaults$family,
     iter = brm_defaults$iter,
     warmup = brm_defaults$warmup,
@@ -93,7 +106,6 @@ fit a model
 
 ```{r}
 #| label: fit-model
-
 ## formula
 formula = bf(rt ~ 0 + condition)
 
@@ -111,7 +123,7 @@ b1 <- fit_model(
   formula = formula,
   prior = priors,
   data = dat,
-  file = "b1",
+  file = "b1"
 )
 
 summary(b1)
