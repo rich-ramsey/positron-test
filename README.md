@@ -113,8 +113,7 @@ docker compose down
 The pre-built Docker image is also available on Docker Hub (no build required):
 
 ```bash
-# coming soon
-docker pull rramsey/positron-test:latest
+docker pull richramsey/positron-test:latest
 ```
 
 ## Working with large files
