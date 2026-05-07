@@ -5,7 +5,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-This tests a simple quarto file in positron.
+This is a minimal example of a data wrangling file.
 
 ```{r}
 #| label: setup

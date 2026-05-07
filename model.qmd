@@ -5,7 +5,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-This tests a model building file.
+This is a minimal example of a model building file using brms and cmdstan.
 
 ```{r}
 #| label: setup
@@ -106,6 +106,7 @@ fit a model
 
 ```{r}
 #| label: fit-model
+#| eval: false
 ## formula
 formula = bf(rt ~ 0 + condition)
 
