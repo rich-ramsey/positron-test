@@ -93,12 +93,14 @@ Then open and run scripts in order:
 Requires [Docker Desktop](https://www.docker.com/products/docker-desktop).
 There are two ways to access the Docker container.
 
-**Option 2a. Use the pre-built docker image**
+**Option 2a. Use the pre-built docker image.**
+
 The quickest way is to use the pre-built Docker image that is available on Docker Hub (no build required).
 To do so, the `docker-compose.yml` file must have the image: argument as image: richramsey/positron-test:latest.
 This is the default approach.
 
-**Option 2b. Build the docker image**
+**Option 2b. Build the docker image.**
+
 The longer way is to build the Docker image yourself from the Dockerfile.
 To do so, the `docker-compose.yml` file must have the build: argument as build: .
 The first build takes ~35 minutes (installing packages and compiling CmdStan). 
