@@ -85,21 +85,34 @@ cmdstanr::install_cmdstan()
 
 Then open and run scripts in order:
 1. `wrangle.qmd` — simulate data and create plots
-2. `model.qmd` — load pre-fitted model and run diagnostics
-3. `quarto-template/quarto-template.qmd` — render the example manuscript
+2. `model.qmd` — fit a model
+3. `quarto-template/quarto-template.qmd` — render an example manuscript
 
 ### Option 2 — Docker (recommended for full reproducibility)
 
 Requires [Docker Desktop](https://www.docker.com/products/docker-desktop).
+There are two ways to access the Docker container.
+
+**Option 2a. Use the pre-built docker image**
+The quickest way is to use the pre-built Docker image that is available on Docker Hub (no build required).
+To do so, the `docker-compose.yml` file must have the image: argument as image: richramsey/positron-test:latest.
+This is the default approach.
+
+**Option 2b. Build the docker image**
+The longer way is to build the Docker image yourself from the Dockerfile.
+To do so, the `docker-compose.yml` file must have the build: argument as build: .
+The first build takes ~35 minutes (installing packages and compiling CmdStan). 
+Subsequent starts are instant.
+If you want to build the Docker image, then edit the `docker-compose.yml` file by commenting out the image: argument and including the build: argument.
+
+To start the container:
 
 ```bash
 git clone https://github.com/rich-ramsey/positron-test.git
 cd positron-test
+docker pull richramsey/positron-test:latest
 docker compose up -d
 ```
-
-The first build takes ~35 minutes (installing packages and compiling CmdStan). Subsequent starts are instant.
-
 Go to [http://localhost:8787](http://localhost:8787) in your browser. 
 RStudio Server will open with all packages and CmdStan pre-installed.
 This can take a few minutes.
@@ -108,12 +121,6 @@ To stop the container:
 
 ```bash
 docker compose down
-```
-
-The pre-built Docker image is also available on Docker Hub (no build required):
-
-```bash
-docker pull richramsey/positron-test:latest
 ```
 
 ## Working with large files
