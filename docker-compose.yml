@@ -1,7 +1,9 @@
 services:
   rstudio:
     platform: linux/amd64
-    build: .
+    # Use the image: or build: argument below (but not both) - use # to comment out one line, as necessary
+    image: richramsey/positron-test:latest
+    #build: .
     ports:
       - "8787:8787"
     environment:
