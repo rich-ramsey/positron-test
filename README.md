@@ -179,11 +179,12 @@ This repository demonstrates the following workflow:
 
 ## Citation
 
-This repository is archived on Zenodo:
+A Zenodo archive with a citable DOI will be created on the first stable release.
+In the meantime, please cite the GitHub repository:
 
-> Ramsey, R. (2026). A minimal reproducible scientific workflow template for psychological and brain science research. Zenodo. https://doi.org/10.5281/zenodo.xxxxxxx
-
-*(DOI will be added on journal acceptance)*
+> Ramsey, R. (2026). A minimal reproducible scientific workflow template 
+> for psychological and brain science research. 
+> GitHub. https://github.com/rich-ramsey/positron-test
 
 ## Licence
 
