@@ -112,12 +112,12 @@ To start the container:
 ```bash
 git clone https://github.com/rich-ramsey/positron-test.git
 cd positron-test
-docker pull richramsey/positron-test:latest
 docker compose up -d
 ```
 Go to [http://localhost:8787](http://localhost:8787) in your browser. 
 RStudio Server will open with all packages and CmdStan pre-installed.
-This can take a few minutes.
+This can take a few minutes, especially on Apple Silicon Macs, since the container runs in amd64 emulation mode. 
+Once the browser loads, RStudio Server should work normally.
 
 To stop the container:
 
