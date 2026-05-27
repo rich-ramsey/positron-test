@@ -1,6 +1,6 @@
 # A minimal reproducible scientific workflow template for psychological and brain science research
 
-This project presents a minimal reproducible workflow template for cognitive neuroscience research using Positron, R, Bayesian modelling, and Docker.
+This project presents a minimal reproducible workflow template for psychology and cognitive neuroscience research using Positron, R, Bayesian modelling, and Docker.
 The repository is a worked example of a complete open science workflow — from data wrangling and model fitting to manuscript rendering and reproducible environments. 
 It is intended as a teaching resource and template.
 
@@ -62,16 +62,19 @@ positron-test/
 
 ## Reproducing this project
 
+There are three ways to reproduce this project, depending on your setup and goals.
+
 ### Option 1 — Local (R users)
 
-Requires R, Positron (or RStudio), and CmdStan installed locally.
+Requires R 4.6.0, Positron (or RStudio), and CmdStan installed locally.
 
 ```bash
 git clone https://github.com/rich-ramsey/positron-test.git
 cd positron-test
 ```
 
-Open the folder in Positron. renv will activate automatically and prompt you to restore packages:
+Open the folder in Positron.
+renv will activate automatically and prompt you to restore packages:
 
 ```r
 renv::restore()
@@ -88,36 +91,50 @@ Then open and run scripts in order:
 2. `model.qmd` — fit a model
 3. `quarto-template/quarto-template.qmd` — render an example manuscript
 
-### Option 2 — Docker (recommended for full reproducibility)
+### Option 2 — Interactive Docker container (recommended)
 
 Requires [Docker Desktop](https://www.docker.com/products/docker-desktop).
-There are two ways to access the Docker container.
 
-**Option 2a. Use the pre-built docker image.**
+This option provides a fully reproducible environment with R 4.6.0, all packages, and CmdStan 2.39.0 pre-installed.
+No local R installation required.
+It is the recommended approach for reproducibility verification, teaching, and collaboration.
 
-The quickest way is to use the pre-built Docker image that is available on Docker Hub (no build required).
-To do so, the `docker-compose.yml` file must have the image: argument as image: richramsey/positron-test:latest.
-This is the default approach.
+Scripts are run manually inside RStudio Server in the browser, in the same order as Option 1.
 
-**Option 2b. Build the docker image.**
+To start the container, there are two options:
 
-The longer way is to build the Docker image yourself from the Dockerfile.
-To do so, the `docker-compose.yml` file must have the build: argument as build: .
-The first build takes ~35 minutes (installing packages and compiling CmdStan). 
-Subsequent starts are instant.
-If you want to build the Docker image, then edit the `docker-compose.yml` file by commenting out the image: argument and including the build: argument.
+**Option 2a — Use the pre-built image from Docker Hub (quickest)**
 
-To start the container:
+The `docker-compose.yml` file uses the pre-built image by default.
+No build required — Docker will pull the image automatically on first run.
 
 ```bash
 git clone https://github.com/rich-ramsey/positron-test.git
 cd positron-test
 docker compose up -d
 ```
-Go to [http://localhost:8787](http://localhost:8787) in your browser. 
+
+**Option 2b — Build the image yourself**
+
+If you prefer to build the image from the Dockerfile, edit `docker-compose.yml` by commenting out the `image:` line and uncommenting the `build:` line.
+The first build takes approximately 20-30 minutes (installing packages and compiling CmdStan).
+
+```bash
+git clone https://github.com/rich-ramsey/positron-test.git
+cd positron-test
+docker compose up -d
+```
+
+**Accessing RStudio Server**
+
+Once the container is running, open [http://localhost:8787](http://localhost:8787) in your browser.
 RStudio Server will open with all packages and CmdStan pre-installed.
-This can take a few minutes, especially on Apple Silicon Macs, since the container runs in amd64 emulation mode. 
-Once the browser loads, RStudio Server should work normally.
+This can take a few minutes to load, especially on Apple Silicon Macs, since the container runs in amd64 emulation mode.
+
+Then run scripts in order:
+1. `wrangle.qmd` — simulate data and create plots
+2. `model.qmd` — fit a model
+3. `quarto-template/quarto-template.qmd` — render an example manuscript
 
 To stop the container:
 
@@ -125,9 +142,14 @@ To stop the container:
 docker compose down
 ```
 
+**Note on RStudio sessions**
+
+If the browser shows an old R session, go to Session → Quit Session, then Session → New Session to start fresh.
+
 ## Working with large files
 
-For real projects, large files (raw data, fitted model objects) are stored on OSF rather than GitHub. The following pattern handles this automatically:
+For real projects, large files (raw data, fitted model objects) are stored on OSF rather than GitHub.
+The following handles this automatically:
 
 ```r
 # Download data from OSF if not already present locally
@@ -159,14 +181,13 @@ Files downloaded inside the container appear in your local folder via the volume
 
 ## Notes on model objects
 
-`b1.rds` was fitted locally on Apple Silicon (Mac Studio). 
-If you refit the model in the Docker container (which runs in amd64 emulation), the resulting file will be larger due to different compression behaviour in the emulated environment (I think). 
+`b1.rds` was fitted locally on Apple Silicon (Mac Studio).
+If you refit the model in the Docker container (which runs in amd64 emulation), the resulting file will be larger due to different compression behaviour in the emulated environment.
 The model results (estimates, ESS, Rhat) will be identical — compare summaries rather than file sizes.
 
-The model building chunk in `model.qmd` is set to `eval: false`. 
-To refit from scratch, set `eval: true`.
-As this example is a simple model, it doesn't take very long.
-But be aware that for more complex models, this may take a long time, hence why the default is set to `eval: false`.
+The model fitting chunk in `model.qmd` is set to `eval: true`.
+As this example is a simple model, it does not take very long.
+For more complex models this may take a long time, hence why the default would typically be `eval: false`.
 
 ## General workflow
 
@@ -174,7 +195,7 @@ This repository demonstrates the following workflow:
 
 1. **Develop locally** in Positron with renv and git
 2. **Store large files** on OSF with auto-download in scripts
-3. **At submission**, build Docker image and push to Docker Hub from the GitHub repo
+3. **At submission**, build Docker image and push to Docker Hub
 4. **At acceptance**, link GitHub to Zenodo for a citable DOI
 
 ## Citation
@@ -182,11 +203,15 @@ This repository demonstrates the following workflow:
 A Zenodo archive with a citable DOI will be created on the first stable release.
 In the meantime, please cite the GitHub repository:
 
-> Ramsey, R. (2026). A minimal reproducible scientific workflow template 
-> for psychological and brain science research. 
+> Ramsey, R. (2026). A minimal reproducible scientific workflow template
+> for psychological and brain science research.
 > GitHub. https://github.com/rich-ramsey/positron-test
 
 ## Licence
 
 This work is licensed under CC BY 4.0.
 https://creativecommons.org/licenses/by/4.0/
+
+## Acknowledgments
+
+Many thanks to Sven Panis and Matti Vuorre for helpful feedback on a previous version of this project.

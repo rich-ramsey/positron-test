@@ -106,7 +106,7 @@ fit a model
 
 ```{r}
 #| label: fit-model
-#| eval: false
+#| eval: true
 ## formula
 formula = bf(rt ~ 0 + condition)
 

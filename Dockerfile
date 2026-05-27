@@ -1,4 +1,4 @@
-FROM rocker/tidyverse:4.5.2
+FROM rocker/tidyverse:4.6.0
 
 # Install system dependencies needed for Stan/CmdStan
 RUN apt-get update && apt-get install -y \
@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Quarto (rocker's bundled version is too old for quarto-preprint)
-ARG QUARTO_VERSION=1.9.36
+ARG QUARTO_VERSION=1.9.37
 RUN curl -LO https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-amd64.deb && \
     dpkg -i quarto-${QUARTO_VERSION}-linux-amd64.deb && \
     rm quarto-${QUARTO_VERSION}-linux-amd64.deb
@@ -48,7 +48,7 @@ RUN sudo -u rstudio Rscript -e "\
 # Install pinned CmdStan version as rstudio user
 # Version pinned to match local environment - update when you update CmdStan locally
 RUN sudo -u rstudio Rscript -e "\
-    cmdstanr::install_cmdstan(version = '2.37.0', cores = 28)"
+    cmdstanr::install_cmdstan(version = '2.39.0', cores = 28)"
 
 # Expose RStudio Server port
 EXPOSE 8787
