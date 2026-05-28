@@ -47,22 +47,22 @@ I strongly recommend reading both of them in detail before continuing further wi
 ```
 positron-test/
 ├── wrangle.qmd          # Data wrangling and visualisation
-├── model.qmd            # Model fitting (eval: false) and diagnostics
+├── model.qmd            # Model fitting and diagnostics
 ├── quarto-template/     # Example manuscript using quarto-preprint
-├── b1.rds               # Reference model object (fitted locally)
 ├── data.csv             # Simulated data
-├── dat_plot.png         # Example plot
 ├── renv.lock            # Locked R package versions
 ├── .Rprofile            # renv activation
 ├── Dockerfile           # Docker image specification
 ├── docker-compose.yml   # Docker container configuration
+├── renv/                # renv project library (auto-generated)
 ├── air.toml             # Air code formatter settings
 └── .vscode/             # Positron workspace settings
+
 ```
 
 ## Reproducing this project
 
-There are three ways to reproduce this project, depending on your setup and goals.
+There are two ways to reproduce this project, depending on your setup and goals.
 
 ### Option 1 — Local (R users)
 
@@ -146,6 +146,20 @@ docker compose down
 
 If the browser shows an old R session, go to Session → Quit Session, then Session → New Session to start fresh.
 
+**Troubleshooting errors**
+
+If you get the error "CmdStan path not set" or there are packages missing: Go to Session → Quit Session → New Session in the browser to start a fresh R session. 
+If problems persist, run:
+
+```bash
+docker compose down
+docker compose pull
+docker compose up -d 
+```
+
+
+This ensures that you have the latest image, then start a new session.
+
 ## Working with large files
 
 For real projects, large files (raw data, fitted model objects) are stored on OSF rather than GitHub.
@@ -181,13 +195,12 @@ Files downloaded inside the container appear in your local folder via the volume
 
 ## Notes on model objects
 
-`b1.rds` was fitted locally on Apple Silicon (Mac Studio).
-If you refit the model in the Docker container (which runs in amd64 emulation), the resulting file will be larger due to different compression behaviour in the emulated environment.
-The model results (estimates, ESS, Rhat) will be identical — compare summaries rather than file sizes.
+If you fit models both locally and inside the Docker container, the resulting model files may differ in size due to different compression behaviour between native and emulated (amd64) environments (I think!).
+The model results (estimates, ESS, Rhat) will be identical — so compare summaries rather than file sizes.
 
-The model fitting chunk in `model.qmd` is set to `eval: true`.
+The model fitting chunk in model.qmd is set to eval: true.
 As this example is a simple model, it does not take very long.
-For more complex models this may take a long time, hence why the default would typically be `eval: false`.
+For more complex models this may take a long time, hence why the default would typically be eval: false.
 
 ## General workflow
 
