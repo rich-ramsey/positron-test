@@ -1,8 +1,7 @@
-# A minimal reproducible scientific workflow template for psychological and brain science research
+# A minimal reproducible scientific workflow template in R using Positron, renv, brms/CmdStan, Quarto, and Docker
 
-This project presents a minimal reproducible workflow template for psychology and cognitive neuroscience research using Positron, R, Bayesian modelling, and Docker.
-The repository is a worked example of a complete open science workflow — from data wrangling and model fitting to manuscript rendering and reproducible environments. 
-It is intended as a teaching resource and template.
+This repository is a minimal, worked example of a reproducible scientific workflow in R — from data wrangling and Bayesian modelling to manuscript rendering — using Positron, renv, brms/CmdStan, Quarto, and Docker. 
+It is intended as a teaching resource and template for researchers who want a complete open science stack without unnecessary complexity.
 
 ## Resources
 
@@ -90,6 +89,10 @@ Then open and run scripts in order:
 1. `wrangle.qmd` — simulate data and create plots
 2. `model.qmd` — fit a model
 3. `quarto-template/quarto-template.qmd` — render an example manuscript
+
+Fun fact: I expect `renv` will not work straight away or as expected. 
+See this [video](https://www.youtube.com/watch?v=l01u7Ue9pIQ) for more on why.
+And that's why Docker becomes more important - see next section (Option 2).
 
 ### Option 2 — Interactive Docker container (recommended)
 
@@ -211,19 +214,21 @@ This repository demonstrates the following workflow:
 3. **At submission**, build Docker image and push to Docker Hub
 4. **At acceptance**, link GitHub to Zenodo for a citable DOI
 
+## Feedback
+
+This template is a first draft of something that *hopefully* works, but I very much welcome constructive feedback on ways that it can be improved.
+
 ## Citation
 
-A Zenodo archive with a citable DOI will be created on the first stable release.
+A Zenodo archive with a citable DOI may be created if I ever get to a first stable release.
 In the meantime, please cite the GitHub repository:
 
-> Ramsey, R. (2026). A minimal reproducible scientific workflow template
-> for psychological and brain science research.
-> GitHub. https://github.com/rich-ramsey/positron-test
+> Ramsey, R. (2026). A minimal reproducible scientific workflow template in R using Positron, renv, brms/CmdStan, Quarto, and Docker.
+> GitHub. https://github.com/rich-ramsey/positron-workflow
 
 ## Licence
 
-This work is licensed under CC BY 4.0.
-https://creativecommons.org/licenses/by/4.0/
+This work is licensed under CC BY 4.0. <https://creativecommons.org/licenses/by/4.0/>
 
 ## Acknowledgments
 
