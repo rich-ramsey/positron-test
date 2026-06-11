@@ -90,7 +90,7 @@ Then open and run scripts in order:
 2. `model.qmd` — fit a model
 3. `quarto-template/quarto-template.qmd` — render an example manuscript
 
-Fun fact: I expect `renv` will not work straight away or as expected. 
+**Fun fact**: I expect `renv` will not work straight away or as expected. 
 See this [video](https://www.youtube.com/watch?v=l01u7Ue9pIQ) for more on why.
 And that's why Docker becomes more important - see next section (Option 2).
 
